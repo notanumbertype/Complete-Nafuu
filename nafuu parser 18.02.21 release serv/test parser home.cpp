@@ -3,7 +3,12 @@
 #include <string> // это можно было бы юзать, если бы я хотел массив символов везде ставить,
 //но стринги удобнее ) тут есть strlen на длину и прочее...
 #include <iostream>
-#include <Windows.h>
+#ifdef __unix__ 
+    #include <unistd.h>
+#elif _WIN32
+    #include <Windows.h>
+#endif
+
 #include <fstream>
 #include <vector> // надо, чтобы я мог записать строки в векторы, потом их сравнить
 #include <filesystem> // чтобы мы могли удалять файлы
@@ -404,7 +409,11 @@ int main() {
         while (!fREADY) // пока не существует хтмльки и линк-базы - спим (10c)
         {
             cout << "Жду файл 'READY'... " << endl;
-            Sleep(10000);
+            #ifdef __unix__
+            usleep(10000000);       // sleeping in microseconds (unistd.h)
+            #elif _WIN32
+            Sleep(10000);           // sleeping in miliseconds (Windows.h)
+            #endif
             fREADY.open(readystring); // пытаемся открыть файл
         }
 
