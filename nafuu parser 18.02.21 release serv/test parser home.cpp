@@ -3,22 +3,21 @@
 #include <string> // это можно было бы юзать, если бы я хотел массив символов везде ставить,
 //но стринги удобнее ) тут есть strlen на длину и прочее...
 #include <iostream>
-#ifdef __unix__ 
-    #include <unistd.h>
+#ifdef __unix__
+#include <unistd.h>
 #elif _WIN32
-    #include <Windows.h>
+#include <Windows.h>
 #endif
 
 #include <fstream>
-#include <vector> // надо, чтобы я мог записать строки в векторы, потом их сравнить
+#include <vector>     // надо, чтобы я мог записать строки в векторы, потом их сравнить
 #include <filesystem> // чтобы мы могли удалять файлы
 //#include "anal.h"
 
 using namespace std;
 
-// тут создам глобальную константу на весь файл парсера 
-const  string globalDir = "H:/Arch_moe_bot/";
-
+// тут создам глобальную константу на весь файл парсера
+const string globalDir = "H:/Arch_moe_bot/";
 
 /*
 НЕ ЗАБЫТЬ ДОБАВИТЬ ЗНАК СОБАКИ В КОНЕЦ ФАЙЛА!"!!!!!!!!1
@@ -41,14 +40,14 @@ class anal // определяем класс
 public:
     void getter(string fname, string fname1, string user_id, string thread)
     {
-        char simb; // символ из файла
-        char probel = (char)32; // пробел для стопа
+        char simb;                // символ из файла
+        char probel = (char)32;   // пробел для стопа
         char kavichki = (char)34; // кавычки для стопа тоже
-        char dog = (char)64; // знак собаки для конца файла
-        string tempString; // временная строка для сравнения с ключом
-        string str = fname1; // ключ к парсу линка (ключевая фраза, которая нам говорит, где копать)))
-        string resString; // конечная линка (выводим пока что на экран)
-        string temper; // временная переменная для меня (чтобы я понимал, что кладется в ячейку после 149 итераций)
+        char dog = (char)64;      // знак собаки для конца файла
+        string tempString;        // временная строка для сравнения с ключом
+        string str = fname1;      // ключ к парсу линка (ключевая фраза, которая нам говорит, где копать)))
+        string resString;         // конечная линка (выводим пока что на экран)
+        string temper;            // временная переменная для меня (чтобы я понимал, что кладется в ячейку после 149 итераций)
         //str.erase(0, 1); // удаляем \n из начала
 
         // это путь, куда будет сохраняться файл (сырье)
@@ -61,7 +60,6 @@ public:
         //string tmpstr = "C:/Users/Fantom/source/repos/parser ver 1.1/parser ver 1.1/botUsers/" + user_id + "/" + "tmplinks.txt";
         string tmpstr = globalDir + "botUsers" + "/" + user_id + "/" + "tmplinks.txt";
 
-
         ifstream file;
         file.open(parsetext);
         /*
@@ -72,11 +70,11 @@ public:
          }
          */
 
-         //ofstream file54; // поток для записи
-         //file54.open("res_links.txt");
+        //ofstream file54; // поток для записи
+        //file54.open("res_links.txt");
 
         ofstream file54;
-        file54.open(tmpstr, ios_base::app);  // открываем файл для записи в конец
+        file54.open(tmpstr, ios_base::app); // открываем файл для записи в конец
 
         /*
         while (!file54) // проверка на пажилого
@@ -100,7 +98,7 @@ public:
                     //cout << simb << endl;
                     //cout << "прошли 2 вайл" << endl;
                     tempString.push_back(simb); // вставляем в конец временной строки символ
-                    file.get(simb); // добираем следующий символ
+                    file.get(simb);             // добираем следующий символ
                 }
 
                 if (simb == dog)
@@ -122,7 +120,7 @@ public:
 
                 //cout << tempString << endl;
 
-                if (tempString == str)// СРАВНИЕВАЕМ СТРОКИ
+                if (tempString == str) // СРАВНИЕВАЕМ СТРОКИ
                 {
                     cout << "МЫ ВНУТРИ!" << endl;
                     cout << tempString << endl;
@@ -146,7 +144,7 @@ public:
                         while (simb != kavichki)
                         {
                             resString.push_back(simb); // вставляем в конец результирующей строки символ
-                            file.get(simb); // добираем следующий символ
+                            file.get(simb);            // добираем следующий символ
                         }
 
                         cout << resString << endl;
@@ -161,7 +159,7 @@ public:
                     tempString.clear(); // чистим временную строку
                 }
             }
-            file.close(); // закрываем файл
+            file.close();   // закрываем файл
             file54.close(); // закрываем файл
         }
     }
@@ -207,14 +205,15 @@ public:
 
         //fclose(f1);
 
-        cout << "Кол-во символов в файле = " << simcounter << "\n" << "Кол-во строк в файле = " << strcounter << "\n";
+        cout << "Кол-во символов в файле = " << simcounter << "\n"
+             << "Кол-во строк в файле = " << strcounter << "\n";
         return strcounter;
     }
 
     //на вход принимаем кол-во символов в файле
     void simPrint(long count, string fname) // метод, который выведет все символы из файла
     {
-        char simb; // символ из файла
+        char simb;  // символ из файла
         ifstream f; // экзэмпляр класса ifstream для чтения файла
         f.open(fname);
 
@@ -223,7 +222,7 @@ public:
             cout << "can't open file \n";
         }
         cout << "\n Вот, что сейчас в файле: \n";
-        int i = 0; // счетчик
+        int i = 0;       // счетчик
         if (f.is_open()) // открыл ли файл или нет
         {
             while (f.get(simb) && i < count)
@@ -246,23 +245,22 @@ public:
         string linkstr; // строка, чтобы пикать строки из темпа
 
         // создаем 2 вектора
-        vector<string> vTmp; // вектор файла с тмп линк
+        vector<string> vTmp;  // вектор файла с тмп линк
         vector<string> vBase; // вектор базы на тред
 
-        ifstream fBase_read; // файл с базой на тред на чтение
-        ofstream fBase_write;// файл с базой на тред на запись
+        ifstream fBase_read;  // файл с базой на тред на чтение
+        ofstream fBase_write; // файл с базой на тред на запись
 
         ofstream f_write;
         //f_write.open(tmpstr);
         ifstream f_read;
         //f_read.open(tmpstr);
 
-        // КОРОЧЕ, МНЕ НАДОЕЛО НАД ЭТИМ ДУМАТЬ. БУДУ ДЕЛАТЬ ЧЕРЕЗ VECTOR 
-            // допустим, будим юзать его как контейнер. 
-            // запишем в него данные из tmp файла с линками, потом будем сравнивать 
-            // с вектором из файла с базой = > удалим одинаковые из tmp 
-            // в отдельном блоке пробежимся по базе и tmp и удалим, где-то добавим
-
+        // КОРОЧЕ, МНЕ НАДОЕЛО НАД ЭТИМ ДУМАТЬ. БУДУ ДЕЛАТЬ ЧЕРЕЗ VECTOR
+        // допустим, будим юзать его как контейнер.
+        // запишем в него данные из tmp файла с линками, потом будем сравнивать
+        // с вектором из файла с базой = > удалим одинаковые из tmp
+        // в отдельном блоке пробежимся по базе и tmp и удалим, где-то добавим
 
         // считаем данные из файла тмп в вектор
         f_read.open(tmpstr); // файл с темп линками
@@ -275,7 +273,7 @@ public:
         }
         f_read.close();
 
-        fBase_read.open(thread_path);// открываем базу с линками на конкр. тред для сравнения
+        fBase_read.open(thread_path); // открываем базу с линками на конкр. тред для сравнения
         while (!fBase_read.eof())
         {
             // пропихиваем в конец вектора полученные значения из базофайла файла
@@ -295,7 +293,7 @@ public:
             }
             fBase_write.close();
         }
-        // А ВОТ НА ИНАЧЕ ОСНОВНОЕ ДЕЙСТВИЕ 
+        // А ВОТ НА ИНАЧЕ ОСНОВНОЕ ДЕЙСТВИЕ
         else
         {
             for (int i = 0; i < vBase.size(); i++)
@@ -307,7 +305,7 @@ public:
                     {
                         cout << "Совпала строка!" << endl;
                         cout << vTmp[j] << "\n\n";
-                        vTmp.erase(vTmp.begin() + j); // указываем итератором, что надо удалять 
+                        vTmp.erase(vTmp.begin() + j); // указываем итератором, что надо удалять
                     }
                 }
             }
@@ -332,7 +330,7 @@ public:
         f_write.close();
 
         // тут открываем файл тред-базы, чтобы туда в конец дописать файлы
-        fBase_write.open(thread_path, ios_base::app);  // открываем файл для записи в конец
+        fBase_write.open(thread_path, ios_base::app); // открываем файл для записи в конец
         // дописываем в конец обновленный тмп
         for (int i = 0; i < vTmp.size(); i++)
         {
@@ -341,8 +339,8 @@ public:
     }
 };
 
-
-int main() {
+int main()
+{
     setlocale(LC_ALL, "rus");
     /*
     string s; // сюда будем класть считанные строки
@@ -361,7 +359,7 @@ int main() {
     anal krol; // создаем экземпляр класса анал
 
     int kolvo;
-    string string_user; // ID пользователя
+    string string_user;   // ID пользователя
     string string_thread; // НАЗВАНИЕ ТРЕДА
     //string string1 = "parsetext.html"; // путь (название файла для парса)
 
@@ -369,10 +367,9 @@ int main() {
     string stringtext2 = "parsetext2.html"; // путь (название файла для парса)
     string stringtext3 = "parsetext3.html"; // путь (название файла для парса)
 
-
-    string string2; //= 'class="html - attribute - value">thread_image_box</span>" & gt; < / span>';
+    string string2;                               //= 'class="html - attribute - value">thread_image_box</span>" & gt; < / span>';
     string readystring = globalDir + "READY.txt"; // стирнг для удаления реди тээкстэ
-    string infostr = globalDir + "INFO.txt"; // стринг для получаения id и треда
+    string infostr = globalDir + "INFO.txt";      // стринг для получаения id и треда
 
     // тут мы просто получаем ключ для парса из файла (потому что вижла дурак блин☺)
     ifstream f;
@@ -409,11 +406,11 @@ int main() {
         while (!fREADY) // пока не существует хтмльки и линк-базы - спим (10c)
         {
             cout << "Жду файл 'READY'... " << endl;
-            #ifdef __unix__
-            usleep(10000000);       // sleeping in microseconds (unistd.h)
-            #elif _WIN32
-            Sleep(10000);           // sleeping in miliseconds (Windows.h)
-            #endif
+#ifdef __unix__
+            usleep(10000000); // sleeping in microseconds (unistd.h)
+#elif _WIN32
+            Sleep(10000); // sleeping in miliseconds (Windows.h)
+#endif
             fREADY.open(readystring); // пытаемся открыть файл
         }
 
@@ -432,13 +429,13 @@ int main() {
 
         cout << string_user << " " << string_thread << endl;
 
-        // Из-за того, что файл с темп линками не хранился, а каждый раз удалялся и записывался заново, 
+        // Из-за того, что файл с темп линками не хранился, а каждый раз удалялся и записывался заново,
         // я понял, что надо сразу открывать файл потом закрывать
         string tmpstr = globalDir + "botUsers" + "/" + string_user + "/" + "tmplinks.txt";
         ofstream file54;
         file54.close();
 
-        // парметры, которые принимает функция getter: 
+        // парметры, которые принимает функция getter:
         // 1) путь (название файла для парса)
         // 2) ключ для парса из файла (example.txt)
         // 3) ID пользователя
@@ -450,7 +447,6 @@ int main() {
 
         // ВОТ ТУТ ДОЛЖЕН БЫТЬ ОТЛОВ ПОВТОРЯЕМОСТИ ССЫЛОК В КАЖДОМ ТРЕДЕ
 
-
         cout << "Цикл завершен!" << endl;
 
         cout << "Делаю проверку на совпадения тпшки и тред-базы..." << endl;
@@ -461,11 +457,12 @@ int main() {
 
         remove(readystring.c_str()); // удаляем readystring
 
-        cout << "ФАЙЛ 'READY.txt' удален. " << "\n";
+        cout << "ФАЙЛ 'READY.txt' удален. "
+             << "\n";
 
         remove(infostr.c_str()); // удаляем INFO.txt
-        cout << "ФАЙЛ 'INFO.txt' удален. " << "\n\n";
-
+        cout << "ФАЙЛ 'INFO.txt' удален. "
+             << "\n\n";
     }
 
     //krol.simPrint(kolvo, string1); // производим печать всего файла
